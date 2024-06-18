@@ -54,7 +54,7 @@ export async function updateReservation(formData) {
   const session = await auth();
   if (!session) throw new Error("You  must be logged in");
 
-  const id = formData.get("id");
+  const id = Number(formData.get("bookingId"));
 
   // console.log("id reservation", id);
 
@@ -64,8 +64,8 @@ export async function updateReservation(formData) {
   const loggedInUser = session.user.guestId;
   // console.log(guestId === loggedInUser);
 
-  const observations = formData.get("observations");
-  const numGuests = formData.get("numGuests");
+  const observations = formData.get("observations").slice(0, 1000);
+  const numGuests = Number(formData.get("numGuests"));
 
   const updatedFields = { observations, numGuests };
 
@@ -84,7 +84,8 @@ export async function updateReservation(formData) {
     throw new Error("Booking could not be updated");
   }
 
-  revalidatePath("/account/reservations/edit");
+  revalidatePath("/account/reservations");
+  revalidatePath(`/account/reservations/edit/${id}`);
   redirect("/account/reservations");
 }
 

@@ -23,6 +23,8 @@ function ReservationCard({ booking }) {
     cabins: { name, image },
   } = booking;
 
+  console.log("booking id from reservation card", typeof id);
+
   return (
     <div className="flex border border-primary-800">
       <div className="relative h-32 aspect-square">
